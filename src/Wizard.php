@@ -205,6 +205,10 @@ class Wizard extends Component implements IWizard
 
 				$this->getSection()->reset();
 			}
+		} elseif ($submitName === self::NEXT_SUBMIT_NAME || $submitName === self::FINISH_SUBMIT_NAME) {
+			// save invalid form data during next/finish actions to avoid overwriting user input with the last saved session state
+			/* @phpstan-ignore-next-line $form->getValues('array') always returns an array */
+			$this->getSection()->setStepValues($this->getCurrentStep(), $form->getUntrustedValues('array'));
 		}
 	}
 
